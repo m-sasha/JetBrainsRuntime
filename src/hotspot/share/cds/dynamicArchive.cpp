@@ -308,7 +308,14 @@ void DynamicArchiveBuilder::remark_pointers_for_instance_klass(InstanceKlass* k,
 }
 
 void DynamicArchiveBuilder::write_archive(char* serialized_data) {
-  _header->set_shared_path_table(FileMapInfo::shared_path_table().table());
+//  if (NoClasspathInArchive) {
+//    // If NoClasspathInArchive is set, create an empty SharedPathTable
+//     Array<SharedClassPathEntry*>* empty_array = new_ro_array<SharedClassPathEntry*>(0);
+//     SharedPathTable empty_table(empty_array);
+//    _header->set_shared_path_table(empty_table.table());
+//  } else {
+    _header->set_shared_path_table(FileMapInfo::shared_path_table().table());
+//  }
   _header->set_serialized_data(serialized_data);
 
   FileMapInfo* dynamic_info = FileMapInfo::dynamic_info();

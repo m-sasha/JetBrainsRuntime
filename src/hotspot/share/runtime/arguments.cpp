@@ -3158,6 +3158,13 @@ jint Arguments::finalize_vm_init_args(bool patch_mod_javabase) {
     }
   }
 
+  if (NoClasspathInArchive) {
+    if (SharedArchiveFile == nullptr && ArchiveClassesAtExit == nullptr) {
+      log_warning(cds)("-XX:+NoClasspathInArchive should only be used with -XX:SharedArchiveFile or -XX:ArchiveClassesAtExit\n");
+      return JNI_ERR;
+    }
+  }
+
   if (UseSharedSpaces && patch_mod_javabase) {
     no_shared_spaces("CDS is disabled when " JAVA_BASE_NAME " module is patched.");
   }

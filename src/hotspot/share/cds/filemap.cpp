@@ -958,6 +958,12 @@ bool FileMapInfo::check_module_paths() {
 bool FileMapInfo::validate_shared_path_table() {
   assert(UseSharedSpaces, "runtime only");
 
+  // If NoClasspathInArchive is set, skip the validation of classpath match
+  if (NoClasspathInArchive) {
+    log_info(cds)("Skipping classpath validation check due to -XX:+NoClasspathInArchive flag");
+    return true;
+  }
+
   _validating_shared_path_table = true;
 
   // Load the shared path table info from the archive header
